@@ -1,0 +1,710 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CED8375E182BAA600047FB01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED8375D182BAA600047FB01 /* Foundation.framework */; };
+		CED83762182BAA600047FB01 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED83761182BAA600047FB01 /* UIKit.framework */; };
+		CED83768182BAA600047FB01 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CED83766182BAA600047FB01 /* InfoPlist.strings */; };
+		CED8376A182BAA600047FB01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CED83769182BAA600047FB01 /* main.m */; };
+		CED8376E182BAA600047FB01 /* CSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CED8376D182BAA600047FB01 /* CSAppDelegate.m */; };
+		CED83771182BAA600047FB01 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CED8376F182BAA600047FB01 /* Main_iPhone.storyboard */; };
+		CED83774182BAA600047FB01 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CED83772182BAA600047FB01 /* Main_iPad.storyboard */; };
+		CED83777182BAA600047FB01 /* CSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CED83776182BAA600047FB01 /* CSViewController.m */; };
+		CED83779182BAA600047FB01 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED83778182BAA600047FB01 /* Images.xcassets */; };
+		CED83780182BAA600047FB01 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED8377F182BAA600047FB01 /* XCTest.framework */; };
+		CED83781182BAA600047FB01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED8375D182BAA600047FB01 /* Foundation.framework */; };
+		CED83782182BAA600047FB01 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED83761182BAA600047FB01 /* UIKit.framework */; };
+		CED8378A182BAA600047FB01 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CED83788182BAA600047FB01 /* InfoPlist.strings */; };
+		CED8378C182BAA600047FB01 /* ColorSpacesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CED8378B182BAA600047FB01 /* ColorSpacesTests.m */; };
+		CED837D5182BB4270047FB01 /* testimage2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CED837D4182BB4260047FB01 /* testimage2.jpg */; };
+		CED837D9182BB5310047FB01 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED8375F182BAA600047FB01 /* CoreGraphics.framework */; };
+		CED837DA182BB5400047FB01 /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED837D7182BB4C00047FB01 /* boost.framework */; };
+		CED837E4182BBDD10047FB01 /* OpenCV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED837DB182BB54E0047FB01 /* OpenCV2.framework */; };
+		CED837EC182BC2CC0047FB01 /* SkinToneMatcherRGB.mm in Sources */ = {isa = PBXBuildFile; fileRef = CED837EB182BC2CC0047FB01 /* SkinToneMatcherRGB.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CED83783182BAA600047FB01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CED83752182BAA600047FB01 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CED83759182BAA600047FB01;
+			remoteInfo = ColorSpaces;
+		};
+		CED837CC182BB3090047FB01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CED837C0182BB3000047FB01 /* LiveDriverWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 99F6533716AFFA2600E345E0;
+			remoteInfo = LiveDriverWrapper;
+		};
+		CED837CE182BB3090047FB01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CED837C0182BB3000047FB01 /* LiveDriverWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 99F6534816AFFA2600E345E0;
+			remoteInfo = LiveDriverWrapperTests;
+		};
+		CED837D0182BB3090047FB01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CED837C0182BB3000047FB01 /* LiveDriverWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 999F2688171597C3009C3D5B;
+			remoteInfo = LiveDriverWrapperFacePaint;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CED8375A182BAA600047FB01 /* ColorSpaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorSpaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CED8375D182BAA600047FB01 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CED8375F182BAA600047FB01 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CED83761182BAA600047FB01 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CED83765182BAA600047FB01 /* ColorSpaces-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColorSpaces-Info.plist"; sourceTree = "<group>"; };
+		CED83767182BAA600047FB01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CED83769182BAA600047FB01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CED8376B182BAA600047FB01 /* ColorSpaces-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ColorSpaces-Prefix.pch"; sourceTree = "<group>"; };
+		CED8376C182BAA600047FB01 /* CSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSAppDelegate.h; sourceTree = "<group>"; };
+		CED8376D182BAA600047FB01 /* CSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSAppDelegate.m; sourceTree = "<group>"; };
+		CED83770182BAA600047FB01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		CED83773182BAA600047FB01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		CED83775182BAA600047FB01 /* CSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSViewController.h; sourceTree = "<group>"; };
+		CED83776182BAA600047FB01 /* CSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSViewController.m; sourceTree = "<group>"; };
+		CED83778182BAA600047FB01 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CED8377E182BAA600047FB01 /* ColorSpacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorSpacesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CED8377F182BAA600047FB01 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		CED83787182BAA600047FB01 /* ColorSpacesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColorSpacesTests-Info.plist"; sourceTree = "<group>"; };
+		CED83789182BAA600047FB01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CED8378B182BAA600047FB01 /* ColorSpacesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorSpacesTests.m; sourceTree = "<group>"; };
+		CED8379D182BB3000047FB01 /* .gitmodules */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
+		CED8379F182BB3000047FB01 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = boost.framework; sourceTree = "<group>"; };
+		CED837A0182BB3000047FB01 /* FacePaintSDKFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacePaintSDKFramework.framework; sourceTree = "<group>"; };
+		CED837A1182BB3000047FB01 /* LiveDriverSDKFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LiveDriverSDKFramework.framework; sourceTree = "<group>"; };
+		CED837A2182BB3000047FB01 /* OpenCV2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenCV2.framework; sourceTree = "<group>"; };
+		CED837A3182BB3000047FB01 /* LiveDriverManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveDriverManager.h; sourceTree = "<group>"; };
+		CED837A5182BB3000047FB01 /* AVFoundationImageBytesReceiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVFoundationImageBytesReceiver.h; sourceTree = "<group>"; };
+		CED837A6182BB3000047FB01 /* AVFoundationImageBytesReceiver.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AVFoundationImageBytesReceiver.mm; sourceTree = "<group>"; };
+		CED837A7182BB3000047FB01 /* CalibrationCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalibrationCallback.h; sourceTree = "<group>"; };
+		CED837A8182BB3000047FB01 /* CalibrationCallback.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalibrationCallback.mm; sourceTree = "<group>"; };
+		CED837A9182BB3000047FB01 /* Calibrator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Calibrator.h; sourceTree = "<group>"; };
+		CED837AA182BB3000047FB01 /* Calibrator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Calibrator.mm; sourceTree = "<group>"; };
+		CED837AB182BB3000047FB01 /* ExpressionDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExpressionDefinition.h; sourceTree = "<group>"; };
+		CED837AC182BB3000047FB01 /* ExpressionDefinition.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExpressionDefinition.mm; sourceTree = "<group>"; };
+		CED837AD182BB3000047FB01 /* ExpressionDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExpressionDetector.h; sourceTree = "<group>"; };
+		CED837AE182BB3000047FB01 /* ExpressionDetector.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExpressionDetector.mm; sourceTree = "<group>"; };
+		CED837AF182BB3000047FB01 /* FacePainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacePainter.h; sourceTree = "<group>"; };
+		CED837B0182BB3000047FB01 /* FacePainter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FacePainter.mm; sourceTree = "<group>"; };
+		CED837B1182BB3000047FB01 /* HelperMethods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
+		CED837B2182BB3000047FB01 /* HelperMethods.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelperMethods.mm; sourceTree = "<group>"; };
+		CED837B3182BB3000047FB01 /* LiveDriverBase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LiveDriverBase.mm; sourceTree = "<group>"; };
+		CED837B4182BB3000047FB01 /* LiveDriverCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveDriverCommon.h; sourceTree = "<group>"; };
+		CED837B5182BB3000047FB01 /* LiveDriverCommon.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LiveDriverCommon.mm; sourceTree = "<group>"; };
+		CED837B6182BB3000047FB01 /* LiveDriverManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveDriverManager.h; sourceTree = "<group>"; };
+		CED837B7182BB3000047FB01 /* LiveDriverManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LiveDriverManager.mm; sourceTree = "<group>"; };
+		CED837B8182BB3000047FB01 /* LiveDriverOutputFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveDriverOutputFrame.h; sourceTree = "<group>"; };
+		CED837B9182BB3000047FB01 /* LiveDriverOutputFrame.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LiveDriverOutputFrame.mm; sourceTree = "<group>"; };
+		CED837BA182BB3000047FB01 /* LiveDriverProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveDriverProtocol.h; sourceTree = "<group>"; };
+		CED837BB182BB3000047FB01 /* LiveDriverWrapper-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LiveDriverWrapper-Prefix.pch"; sourceTree = "<group>"; };
+		CED837BC182BB3000047FB01 /* LoggingCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoggingCallback.h; sourceTree = "<group>"; };
+		CED837BD182BB3000047FB01 /* LoggingCallback.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LoggingCallback.mm; sourceTree = "<group>"; };
+		CED837BE182BB3000047FB01 /* OutputCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OutputCallback.h; sourceTree = "<group>"; };
+		CED837BF182BB3000047FB01 /* OutputCallback.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OutputCallback.mm; sourceTree = "<group>"; };
+		CED837C0182BB3000047FB01 /* LiveDriverWrapper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = LiveDriverWrapper.xcodeproj; sourceTree = "<group>"; };
+		CED837C5182BB3000047FB01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CED837C6182BB3000047FB01 /* LiveDriverWrapperTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LiveDriverWrapperTests-Info.plist"; sourceTree = "<group>"; };
+		CED837C7182BB3000047FB01 /* LiveDriverWrapperTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveDriverWrapperTests.h; sourceTree = "<group>"; };
+		CED837C8182BB3000047FB01 /* LiveDriverWrapperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveDriverWrapperTests.m; sourceTree = "<group>"; };
+		CED837D4182BB4260047FB01 /* testimage2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testimage2.jpg; sourceTree = "<group>"; };
+		CED837D7182BB4C00047FB01 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = boost.framework; sourceTree = "<group>"; };
+		CED837DB182BB54E0047FB01 /* OpenCV2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenCV2.framework; sourceTree = "<group>"; };
+		CED837DD182BB5E40047FB01 /* SkinToneMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkinToneMatcher.h; sourceTree = "<group>"; };
+		CED837E2182BBD4D0047FB01 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		CED837E5182BC0F70047FB01 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		CED837E7182BC1080047FB01 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		CED837EB182BC2CC0047FB01 /* SkinToneMatcherRGB.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SkinToneMatcherRGB.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CED83757182BAA600047FB01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED837E4182BBDD10047FB01 /* OpenCV2.framework in Frameworks */,
+				CED837DA182BB5400047FB01 /* boost.framework in Frameworks */,
+				CED837D9182BB5310047FB01 /* CoreGraphics.framework in Frameworks */,
+				CED83762182BAA600047FB01 /* UIKit.framework in Frameworks */,
+				CED8375E182BAA600047FB01 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED8377B182BAA600047FB01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED83780182BAA600047FB01 /* XCTest.framework in Frameworks */,
+				CED83782182BAA600047FB01 /* UIKit.framework in Frameworks */,
+				CED83781182BAA600047FB01 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CED83751182BAA600047FB01 = {
+			isa = PBXGroup;
+			children = (
+				CED837D4182BB4260047FB01 /* testimage2.jpg */,
+				CED83763182BAA600047FB01 /* ColorSpaces */,
+				CED83785182BAA600047FB01 /* ColorSpacesTests */,
+				CED8375C182BAA600047FB01 /* Frameworks */,
+				CED8375B182BAA600047FB01 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CED8375B182BAA600047FB01 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CED8375A182BAA600047FB01 /* ColorSpaces.app */,
+				CED8377E182BAA600047FB01 /* ColorSpacesTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CED8375C182BAA600047FB01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CED837E7182BC1080047FB01 /* libc++.dylib */,
+				CED837E5182BC0F70047FB01 /* libstdc++.dylib */,
+				CED837E2182BBD4D0047FB01 /* opencv2.framework */,
+				CED837DB182BB54E0047FB01 /* OpenCV2.framework */,
+				CED837D7182BB4C00047FB01 /* boost.framework */,
+				CED8379C182BB3000047FB01 /* LiveDriverWrapper */,
+				CED8375D182BAA600047FB01 /* Foundation.framework */,
+				CED8375F182BAA600047FB01 /* CoreGraphics.framework */,
+				CED83761182BAA600047FB01 /* UIKit.framework */,
+				CED8377F182BAA600047FB01 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CED83763182BAA600047FB01 /* ColorSpaces */ = {
+			isa = PBXGroup;
+			children = (
+				CED837EB182BC2CC0047FB01 /* SkinToneMatcherRGB.mm */,
+				CED837DD182BB5E40047FB01 /* SkinToneMatcher.h */,
+				CED8376C182BAA600047FB01 /* CSAppDelegate.h */,
+				CED8376D182BAA600047FB01 /* CSAppDelegate.m */,
+				CED8376F182BAA600047FB01 /* Main_iPhone.storyboard */,
+				CED83772182BAA600047FB01 /* Main_iPad.storyboard */,
+				CED83775182BAA600047FB01 /* CSViewController.h */,
+				CED83776182BAA600047FB01 /* CSViewController.m */,
+				CED83778182BAA600047FB01 /* Images.xcassets */,
+				CED83764182BAA600047FB01 /* Supporting Files */,
+			);
+			path = ColorSpaces;
+			sourceTree = "<group>";
+		};
+		CED83764182BAA600047FB01 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CED83765182BAA600047FB01 /* ColorSpaces-Info.plist */,
+				CED83766182BAA600047FB01 /* InfoPlist.strings */,
+				CED83769182BAA600047FB01 /* main.m */,
+				CED8376B182BAA600047FB01 /* ColorSpaces-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CED83785182BAA600047FB01 /* ColorSpacesTests */ = {
+			isa = PBXGroup;
+			children = (
+				CED8378B182BAA600047FB01 /* ColorSpacesTests.m */,
+				CED83786182BAA600047FB01 /* Supporting Files */,
+			);
+			path = ColorSpacesTests;
+			sourceTree = "<group>";
+		};
+		CED83786182BAA600047FB01 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CED83787182BAA600047FB01 /* ColorSpacesTests-Info.plist */,
+				CED83788182BAA600047FB01 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CED8379C182BB3000047FB01 /* LiveDriverWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				CED8379D182BB3000047FB01 /* .gitmodules */,
+				CED8379E182BB3000047FB01 /* Frameworks */,
+				CED837A3182BB3000047FB01 /* LiveDriverManager.h */,
+				CED837A4182BB3000047FB01 /* LiveDriverWrapper */,
+				CED837C0182BB3000047FB01 /* LiveDriverWrapper.xcodeproj */,
+				CED837C3182BB3000047FB01 /* LiveDriverWrapperTests */,
+			);
+			name = LiveDriverWrapper;
+			path = "../../coderivium-vuduheads/LiveDriverWrapper";
+			sourceTree = "<group>";
+		};
+		CED8379E182BB3000047FB01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CED8379F182BB3000047FB01 /* boost.framework */,
+				CED837A0182BB3000047FB01 /* FacePaintSDKFramework.framework */,
+				CED837A1182BB3000047FB01 /* LiveDriverSDKFramework.framework */,
+				CED837A2182BB3000047FB01 /* OpenCV2.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		CED837A4182BB3000047FB01 /* LiveDriverWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				CED837A5182BB3000047FB01 /* AVFoundationImageBytesReceiver.h */,
+				CED837A6182BB3000047FB01 /* AVFoundationImageBytesReceiver.mm */,
+				CED837A7182BB3000047FB01 /* CalibrationCallback.h */,
+				CED837A8182BB3000047FB01 /* CalibrationCallback.mm */,
+				CED837A9182BB3000047FB01 /* Calibrator.h */,
+				CED837AA182BB3000047FB01 /* Calibrator.mm */,
+				CED837AB182BB3000047FB01 /* ExpressionDefinition.h */,
+				CED837AC182BB3000047FB01 /* ExpressionDefinition.mm */,
+				CED837AD182BB3000047FB01 /* ExpressionDetector.h */,
+				CED837AE182BB3000047FB01 /* ExpressionDetector.mm */,
+				CED837AF182BB3000047FB01 /* FacePainter.h */,
+				CED837B0182BB3000047FB01 /* FacePainter.mm */,
+				CED837B1182BB3000047FB01 /* HelperMethods.h */,
+				CED837B2182BB3000047FB01 /* HelperMethods.mm */,
+				CED837B3182BB3000047FB01 /* LiveDriverBase.mm */,
+				CED837B4182BB3000047FB01 /* LiveDriverCommon.h */,
+				CED837B5182BB3000047FB01 /* LiveDriverCommon.mm */,
+				CED837B6182BB3000047FB01 /* LiveDriverManager.h */,
+				CED837B7182BB3000047FB01 /* LiveDriverManager.mm */,
+				CED837B8182BB3000047FB01 /* LiveDriverOutputFrame.h */,
+				CED837B9182BB3000047FB01 /* LiveDriverOutputFrame.mm */,
+				CED837BA182BB3000047FB01 /* LiveDriverProtocol.h */,
+				CED837BB182BB3000047FB01 /* LiveDriverWrapper-Prefix.pch */,
+				CED837BC182BB3000047FB01 /* LoggingCallback.h */,
+				CED837BD182BB3000047FB01 /* LoggingCallback.mm */,
+				CED837BE182BB3000047FB01 /* OutputCallback.h */,
+				CED837BF182BB3000047FB01 /* OutputCallback.mm */,
+			);
+			path = LiveDriverWrapper;
+			sourceTree = "<group>";
+		};
+		CED837C1182BB3000047FB01 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CED837CD182BB3090047FB01 /* libLiveDriverWrapper.a */,
+				CED837CF182BB3090047FB01 /* LiveDriverWrapperTests.octest */,
+				CED837D1182BB3090047FB01 /* libLiveDriverWrapperFacePaint.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CED837C3182BB3000047FB01 /* LiveDriverWrapperTests */ = {
+			isa = PBXGroup;
+			children = (
+				CED837C4182BB3000047FB01 /* InfoPlist.strings */,
+				CED837C6182BB3000047FB01 /* LiveDriverWrapperTests-Info.plist */,
+				CED837C7182BB3000047FB01 /* LiveDriverWrapperTests.h */,
+				CED837C8182BB3000047FB01 /* LiveDriverWrapperTests.m */,
+			);
+			path = LiveDriverWrapperTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CED83759182BAA600047FB01 /* ColorSpaces */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CED8378F182BAA600047FB01 /* Build configuration list for PBXNativeTarget "ColorSpaces" */;
+			buildPhases = (
+				CED83756182BAA600047FB01 /* Sources */,
+				CED83757182BAA600047FB01 /* Frameworks */,
+				CED83758182BAA600047FB01 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ColorSpaces;
+			productName = ColorSpaces;
+			productReference = CED8375A182BAA600047FB01 /* ColorSpaces.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CED8377D182BAA600047FB01 /* ColorSpacesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CED83792182BAA600047FB01 /* Build configuration list for PBXNativeTarget "ColorSpacesTests" */;
+			buildPhases = (
+				CED8377A182BAA600047FB01 /* Sources */,
+				CED8377B182BAA600047FB01 /* Frameworks */,
+				CED8377C182BAA600047FB01 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CED83784182BAA600047FB01 /* PBXTargetDependency */,
+			);
+			name = ColorSpacesTests;
+			productName = ColorSpacesTests;
+			productReference = CED8377E182BAA600047FB01 /* ColorSpacesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CED83752182BAA600047FB01 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CS;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = User;
+				TargetAttributes = {
+					CED8377D182BAA600047FB01 = {
+						TestTargetID = CED83759182BAA600047FB01;
+					};
+				};
+			};
+			buildConfigurationList = CED83755182BAA600047FB01 /* Build configuration list for PBXProject "ColorSpaces" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CED83751182BAA600047FB01;
+			productRefGroup = CED8375B182BAA600047FB01 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CED837C1182BB3000047FB01 /* Products */;
+					ProjectRef = CED837C0182BB3000047FB01 /* LiveDriverWrapper.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				CED83759182BAA600047FB01 /* ColorSpaces */,
+				CED8377D182BAA600047FB01 /* ColorSpacesTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CED837CD182BB3090047FB01 /* libLiveDriverWrapper.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLiveDriverWrapper.a;
+			remoteRef = CED837CC182BB3090047FB01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CED837CF182BB3090047FB01 /* LiveDriverWrapperTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = LiveDriverWrapperTests.octest;
+			remoteRef = CED837CE182BB3090047FB01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CED837D1182BB3090047FB01 /* libLiveDriverWrapperFacePaint.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLiveDriverWrapperFacePaint.a;
+			remoteRef = CED837D0182BB3090047FB01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CED83758182BAA600047FB01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED83774182BAA600047FB01 /* Main_iPad.storyboard in Resources */,
+				CED83779182BAA600047FB01 /* Images.xcassets in Resources */,
+				CED837D5182BB4270047FB01 /* testimage2.jpg in Resources */,
+				CED83771182BAA600047FB01 /* Main_iPhone.storyboard in Resources */,
+				CED83768182BAA600047FB01 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED8377C182BAA600047FB01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED8378A182BAA600047FB01 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CED83756182BAA600047FB01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED8376E182BAA600047FB01 /* CSAppDelegate.m in Sources */,
+				CED8376A182BAA600047FB01 /* main.m in Sources */,
+				CED83777182BAA600047FB01 /* CSViewController.m in Sources */,
+				CED837EC182BC2CC0047FB01 /* SkinToneMatcherRGB.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED8377A182BAA600047FB01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED8378C182BAA600047FB01 /* ColorSpacesTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CED83784182BAA600047FB01 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CED83759182BAA600047FB01 /* ColorSpaces */;
+			targetProxy = CED83783182BAA600047FB01 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CED83766182BAA600047FB01 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CED83767182BAA600047FB01 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CED8376F182BAA600047FB01 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CED83770182BAA600047FB01 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		CED83772182BAA600047FB01 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CED83773182BAA600047FB01 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		CED83788182BAA600047FB01 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CED83789182BAA600047FB01 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CED837C4182BB3000047FB01 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CED837C5182BB3000047FB01 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CED8378D182BAA600047FB01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CED8378E182BAA600047FB01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CED83790182BAA600047FB01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = armv7;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				FRAMEWORK_SEARCH_PATHS = /Users/user/Desktop/ColorSpaces;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSpaces/ColorSpaces-Prefix.pch";
+				INFOPLIST_FILE = "ColorSpaces/ColorSpaces-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = armv7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CED83791182BAA600047FB01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = armv7;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				FRAMEWORK_SEARCH_PATHS = /Users/user/Desktop/ColorSpaces;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSpaces/ColorSpaces-Prefix.pch";
+				INFOPLIST_FILE = "ColorSpaces/ColorSpaces-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = armv7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		CED83793182BAA600047FB01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ColorSpaces.app/ColorSpaces";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSpaces/ColorSpaces-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ColorSpacesTests/ColorSpacesTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		CED83794182BAA600047FB01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ColorSpaces.app/ColorSpaces";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSpaces/ColorSpaces-Prefix.pch";
+				INFOPLIST_FILE = "ColorSpacesTests/ColorSpacesTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CED83755182BAA600047FB01 /* Build configuration list for PBXProject "ColorSpaces" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CED8378D182BAA600047FB01 /* Debug */,
+				CED8378E182BAA600047FB01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CED8378F182BAA600047FB01 /* Build configuration list for PBXNativeTarget "ColorSpaces" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CED83790182BAA600047FB01 /* Debug */,
+				CED83791182BAA600047FB01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CED83792182BAA600047FB01 /* Build configuration list for PBXNativeTarget "ColorSpacesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CED83793182BAA600047FB01 /* Debug */,
+				CED83794182BAA600047FB01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CED83752182BAA600047FB01 /* Project object */;
+}
