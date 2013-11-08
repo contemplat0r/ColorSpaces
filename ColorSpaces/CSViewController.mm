@@ -110,6 +110,14 @@
     {
         _hueLabel.text = [NSString stringWithFormat:@"%f", [slider value]];
     }
+    
+    _image = _imageView.image;
+    cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
+    [CSOpenCVWrapper hsvTransform:imgMatrix];
+    _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
+    //_imageView = [[UIImageView alloc] initWithImage:_image];
+    //[_imageView setImage:_newImage];
+    
 }
 
 
