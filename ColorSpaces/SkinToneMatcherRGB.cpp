@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include <OpenCV2/opencv.hpp>
+//#include <OpenCV2/opencv.hpp>
 //#include "OpenCV/highgui.h"
 #ifdef __ARM_NEON__
 #include <arm_neon.h>

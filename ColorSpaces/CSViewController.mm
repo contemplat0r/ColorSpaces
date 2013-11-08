@@ -8,6 +8,7 @@
 
 #import "CSViewController.h"
 
+
 @interface CSViewController ()
 
 @end
@@ -27,7 +28,11 @@
     _nextElementY = _distanceBetweenElements * 2;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Default.png"]];
     _image = [UIImage imageNamed:@"testimage2.jpg"];
-    _imageView = [[UIImageView alloc] initWithImage:_image];
+    cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
+    //[CSOpenCVWrapper hsvTransform:imgMatrix];
+    _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
+    //_imageView = [[UIImageView alloc] initWithImage:_image];
+    _imageView = [[UIImageView alloc] initWithImage:_newImage];
     [_imageView setCenter:CGPointMake(self.view.center.x, self.view.center.y + self.view.bounds.size.height / 9)];
     [self.view addSubview:_imageView];
     /*UIAlertView *allert = [[UIAlertView alloc] initWithTitle:@"Hello!" message:@"Welcome to OpenCV" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
@@ -78,6 +83,9 @@
     NSLog(@"self.view height %f\n", self.view.bounds.size.height);
     NSLog(@"self.view origin x %f\n", self.view.bounds.origin.x);
     NSLog(@"self.view origin y %f\n", self.view.bounds.origin.y);
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,27 +113,6 @@
 }
 
 
-/*- (cv::Mat)cvMatFromUIImage:(UIImage *)image
-{
-    CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
-    CGFloat cols = image.size.width;
-    CGFloat rows = image.size.height;
-    
-    cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels (color channels + alpha)
-    
-    CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,                 // Pointer to  data
-                                                    cols,                       // Width of bitmap
-                                                    rows,                       // Height of bitmap
-                                                    8,                          // Bits per component
-                                                    cvMat.step[0],              // Bytes per row
-                                                    colorSpace,                 // Colorspace
-                                                    kCGImageAlphaNoneSkipLast |
-                                                    kCGBitmapByteOrderDefault); // Bitmap info flags
-    
-    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
-    CGContextRelease(contextRef);
-    
-    return cvMat;
-}*/
+
 
 @end

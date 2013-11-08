@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#include "SkinToneMatcher.h"
+//#import <OpenCV2/opencv.hpp>
+//#include "SkinToneMatcher.h"
+#import "CSOpenCVWrapper.h"
+
+//using namespace cv;
+
 
 @interface CSViewController : UIViewController {
     UIImage* _image;
+    UIImage* _newImage;
     float _nextElementY;
     float _sliderX;
     float _labelX;
