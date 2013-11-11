@@ -8,7 +8,123 @@
 
 #import "CSOpenCVWrapper.h"
 
+static float RGBtoYIQMat[3][3] =
+{
+    {0.299, 0.587, 0.114},
+    
+    {0.596, -0.274, -0.321},
+    
+    {0.211, -0.523, 0.311}
+    
+};
+
+static float YIQtoRGBMat[3][3] =
+{
+    {1, 0.956, 0.621},
+    
+    {1, -0.272, -0.647},
+    
+    {1, -1.107, 1.705}
+};
+
+static float hueTransformMat[3][3] =
+{
+    {1, 0, 0},
+    
+    {0, 0, 0},
+    
+    {0, 0, 0}
+};
+
+static float saturationTransformMat[3][3] =
+{
+    {1, 0, 0},
+    
+    {0, 1, 0},
+    
+    {0, 0, 1}
+};
+
+static float valueTransformMat[3][3] =
+{
+    {1, 0, 0},
+    
+    {0, 1, 0},
+    
+    {0, 0, 1}
+};
+/*static float RGBtoYIQMat[3][3];
+static float YIQtoRGBMat[3][3];
+static float hueTransformMat[3][3];
+static float saturationTransformMat[3][3];
+static float valueTransformMat[3][3];
+
+RGBtoYIQMat[0][0] = 0.299;
+RGBtoYIQMat[0][1] = 0.587;
+RGBtoYIQMat[0][2] = 0.114;
+
+RGBtoYIQMat[1][0] = 0.596;
+RGBtoYIQMat[1][1] = -0.274;
+RGBtoYIQMat[1][2] = -0.321;
+
+RGBtoYIQMat[2][0] = 0.211;
+RGBtoYIQMat[2][1] = -0.523;
+RGBtoYIQMat[2][1] = 0.311;
+
+
+YIQtoRGBMat[0][0] = 1;
+YIQtoRGBMat[0][1] = 0.956;
+YIQtoRGBMat[0][2] = 0.621;
+
+YIQtoRGBMat[1][0] = 1;
+YIQtoRGBMat[1][1] = -0.272;
+YIQtoRGBMat[1][2] = -0.647;
+
+YIQtoRGBMat[2][0] = 1;
+YIQtoRGBMat[2][1] = -1.107;
+YIQtoRGBMat[2][2] = 1.705;
+
+hueTransformMat[0][0] = 1;
+hueTransformMat[0][1] = 0;
+hueTransformMat[0][2] = 0;
+hueTransformMat[1][0] = 0;
+hueTransformMat[1][1] = 0;
+hueTransformMat[1][2] = 0;
+hueTransformMat[2][0] = 0;
+hueTransformMat[2][1] = 0;
+hueTransformMat[2][2] = 0;
+
+saturationTransformMat[0][0] = 1;
+saturationTransformMat[0][1] = 0;
+saturationTransformMat[0][2] = 0;
+
+saturationTransformMat[1][0] = 0;
+saturationTransformMat[1][1] = 1;
+saturationTransformMat[1][2] = 0;
+
+saturationTransformMat[2][0] = 0;
+saturationTransformMat[2][1] = 0;
+saturationTransformMat[2][2] = 1;
+
+valueTransformMat[0][0] = 1;
+valueTransformMat[0][1] = 0;
+valueTransformMat[0][2] = 0;
+
+valueTransformMat[1][0] = 0;
+valueTransformMat[1][1] = 1;
+valueTransformMat[1][2] = 0;
+
+valueTransformMat[2][0] = 0;
+valueTransformMat[2][1] = 0;
+valueTransformMat[2][2] = 1;*/
+
+
+
 @implementation CSOpenCVWrapper
+
+
+
+
 
 + (cv::Mat)cvMatFromUIImage:(UIImage *)image
  {
@@ -91,16 +207,16 @@
     return finalImage;
 }
 
-Float32* TransformHSV(Float32 *pixel_color /* color to transform*/, Float32 hue_shift /* hue shift (in degrees)*/, Float32 sat_mult /*saturation multiplier (scalar)*/, Float32 val_mult /* value multiplier (scalar)*/)
+Float32* TransformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 val_mult)
 {
-    Float32 vsu = val_mult * sat_mult * cos(hue_shift * M_PI/180);
-    Float32 vsw = val_mult * sat_mult * sin(hue_shift * M_PI/180);
+    //Float32 vsu = val_mult * sat_mult * cos(hue_shift * M_PI/180);
+    //Float32 vsw = val_mult * sat_mult * sin(hue_shift * M_PI/180);
     
     Float32 r_in = pixel_color[0];
     Float32 g_in = pixel_color[1];
     Float32 b_in = pixel_color[2];
     
-    Float32 r_result = (.299 * val_mult + .701 * vsu+ .168 * vsw) * r_in
+    Float32 r_result = (.299 * val_mult + .701 * vsu + .168 * vsw) * r_in
     + (.587 * val_mult - .587 * vsu + .330 * vsw) * g_in
     + (.114 * val_mult - .114 * vsu - .497 * vsw) * b_in;
     Float32 g_result = (.299 * val_mult - .299 * vsu - .328 * vsw) * r_in
@@ -117,16 +233,51 @@ Float32* TransformHSV(Float32 *pixel_color /* color to transform*/, Float32 hue_
     return pixel_color;
 }
 
-+ (cv::Mat) hsvTransform:(cv::Mat)cvMat
++ (cv::Mat) hsvTransform:(cv::Mat)cvMat hue:(Float32)hue saturation:(Float32)saturation value:(Float32)value
 {
     int numPixels = cvMat.rows * cvMat.cols;
     Float32* data = (Float32*)cvMat.data;
+    Float32 vsu = value * saturation * cos(hue * M_PI/180);
+    Float32 vsw = value * saturation * sin(hue * M_PI/180);
+    for (int i = 0; i < numPixels * 4; i+=4)
+    {
+        TransformHSV(data + i, vsu, vsw, value);
+    }
+    
+    return cvMat;
+}
+
++ (cv::Mat) hueTransform:(cv::Mat)cvMat hueSin:(Float32)hueSin hueCos:(Float32)hueCos
+{
+    int numPixels = cvMat.rows * cvMat.cols;
+    Float32* data = (Float32*)cvMat.data;
+    hueTransformMat[1][1] = hueCos;
+    hueTransformMat[1][2] = -hueSin;
+    hueTransformMat[2][1] = hueSin;
+    hueTransformMat[2][2] = hueCos;
+
     
     for (int i = 0; i < numPixels * 4; i+=4)
     {
-        TransformHSV(data + i, 120.0, 0.4, 0.2);
+        float colorVect[3] = {data[i], data[i + 1], data[i + 2]};
+        float result[3] = {0.0, 0.0, 0.0};
+        cblas_sgemv(CblasRowMajor, CblasNoTrans, 3, 3, 1.0f, (float*)RGBtoYIQMat, 3, colorVect, 1, 1.0f, result, 1);
+       
+        colorVect[0] = result[0];
+        colorVect[1] = result[1];
+        colorVect[2] = result[2];
+        cblas_sgemv(CblasRowMajor, CblasNoTrans, 3, 3, 1.0f, (float*)hueTransformMat, 3, colorVect, 1, 1.0f, result, 1);
+        
+        colorVect[0] = result[0];
+        colorVect[1] = result[1];
+        colorVect[2] = result[2];
+        cblas_sgemv(CblasRowMajor, CblasNoTrans, 3, 3, 1.0f, (float*)YIQtoRGBMat, 3, colorVect, 1, 1.0f, result, 1);
+        
+        data[i] = result[0];
+        data[i + 1] = result[1];
+        data[i + 2] = result[2];
+        
     }
-    
     return cvMat;
 }
 

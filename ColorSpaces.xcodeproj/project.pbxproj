@@ -10,6 +10,7 @@
 		CE08BA7C182CF34F00632FB0 /* CSOpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = CE08BA7B182CF34F00632FB0 /* CSOpenCVWrapper.mm */; };
 		CE08BA86182D19B700632FB0 /* SkinToneMatcherRGB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE08BA85182D19B700632FB0 /* SkinToneMatcherRGB.cpp */; };
 		CE08BA87182D1B8A00632FB0 /* OpenCV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED837DB182BB54E0047FB01 /* OpenCV2.framework */; };
+		CE99EB5118311E5D0002AC1A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99EB5018311E5D0002AC1A /* Accelerate.framework */; };
 		CED8375E182BAA600047FB01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED8375D182BAA600047FB01 /* Foundation.framework */; };
 		CED83762182BAA600047FB01 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED83761182BAA600047FB01 /* UIKit.framework */; };
 		CED83768182BAA600047FB01 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CED83766182BAA600047FB01 /* InfoPlist.strings */; };
@@ -66,6 +67,7 @@
 		CE08BA84182D19A700632FB0 /* SkinToneMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkinToneMatcher.h; sourceTree = "<group>"; };
 		CE08BA85182D19B700632FB0 /* SkinToneMatcherRGB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkinToneMatcherRGB.cpp; sourceTree = "<group>"; };
 		CE08BA88182D1F4C00632FB0 /* libedit.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.dylib; path = usr/lib/libedit.dylib; sourceTree = SDKROOT; };
+		CE99EB5018311E5D0002AC1A /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		CED8375A182BAA600047FB01 /* ColorSpaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorSpaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED8375D182BAA600047FB01 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CED8375F182BAA600047FB01 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -136,6 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE99EB5118311E5D0002AC1A /* Accelerate.framework in Frameworks */,
 				CE08BA87182D1B8A00632FB0 /* OpenCV2.framework in Frameworks */,
 				CED837DA182BB5400047FB01 /* boost.framework in Frameworks */,
 				CED837D9182BB5310047FB01 /* CoreGraphics.framework in Frameworks */,
@@ -180,6 +183,7 @@
 		CED8375C182BAA600047FB01 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE99EB5018311E5D0002AC1A /* Accelerate.framework */,
 				CE08BA88182D1F4C00632FB0 /* libedit.dylib */,
 				CED837E7182BC1080047FB01 /* libc++.dylib */,
 				CED837E5182BC0F70047FB01 /* libstdc++.dylib */,

@@ -26,13 +26,16 @@
     _sliderX = (self.view.bounds.size.width - _sliderWidth) / 2;
     _labelX = (self.view.bounds.size.width - _labelWidth) / 2;
     _nextElementY = _distanceBetweenElements * 2;
+    _hue = 180.0;
+    _saturation = 0.5;
+    _value = 0.5;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Default.png"]];
     _image = [UIImage imageNamed:@"testimage2.jpg"];
-    cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
-    //[CSOpenCVWrapper hsvTransform:imgMatrix];
-    _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
-    //_imageView = [[UIImageView alloc] initWithImage:_image];
-    _imageView = [[UIImageView alloc] initWithImage:_newImage];
+    //cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
+    //[CSOpenCVWrapper hsvTransform:imgMatrix hue:_hue saturation:_saturation value:_value];
+    //_newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
+    _imageView = [[UIImageView alloc] initWithImage:_image];
+    //_imageView = [[UIImageView alloc] initWithImage:_newImage];
     [_imageView setCenter:CGPointMake(self.view.center.x, self.view.center.y + self.view.bounds.size.height / 9)];
     [self.view addSubview:_imageView];
     /*UIAlertView *allert = [[UIAlertView alloc] initWithTitle:@"Hello!" message:@"Welcome to OpenCV" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
@@ -63,28 +66,31 @@
     _hueLabel.textColor = [UIColor whiteColor];
     _nextElementY = _nextElementY + _labelHeidht + _distanceBetweenElements;
     
-    [self.view addSubview:_valueSlider];
+    
     [_valueSlider setMinimumValue:0];
     [_valueSlider setMaximumValue:1];
+    [_valueSlider setValue:_value];
+    [self.view addSubview:_valueSlider];
     [self.view addSubview:_valueLabel];
     
-    [self.view addSubview:_saturationSlider];
+
     [_saturationSlider setMinimumValue:0];
     [_saturationSlider setMaximumValue:1];
+    [_saturationSlider setValue:_saturation];
+    [self.view addSubview:_saturationSlider];
     [self.view addSubview:_saturationLabel];
 
-    [self.view addSubview:_hueSlider];
     [_hueSlider setMinimumValue:0];
     [_hueSlider setMaximumValue:360];
+    [_hueSlider setValue:_hue];
     [self.view addSubview:_hueLabel];
+    [self.view addSubview:_hueSlider];
     
     
-    NSLog(@"self.view width %f\n", self.view.bounds.size.width);
-    NSLog(@"self.view height %f\n", self.view.bounds.size.height);
-    NSLog(@"self.view origin x %f\n", self.view.bounds.origin.x);
-    NSLog(@"self.view origin y %f\n", self.view.bounds.origin.y);
-    
-    
+    //NSLog(@"self.view width %f\n", self.view.bounds.size.width);
+    //NSLog(@"self.view height %f\n", self.view.bounds.size.height);
+    //NSLog(@"self.view origin x %f\n", self.view.bounds.origin.x);
+    //NSLog(@"self.view origin y %f\n", self.view.bounds.origin.y);
     
 }
 
@@ -100,23 +106,43 @@
     
     if (slider == _valueSlider)
     {
-        _valueLabel.text = [NSString stringWithFormat:@"%f", [slider value]];
+        _value = [slider value];
+        _valueLabel.text = [NSString stringWithFormat:@"%f", _value];
+        //_image = _imageView.image;
+        /*cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
+        [CSOpenCVWrapper hsvTransform:imgMatrix hue:_hue saturation:_saturation value:_value];
+        _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
+        //_imageView = [[UIImageView alloc] initWithImage:_image];
+        [_imageView setImage:_newImage];*/
     }
     else if (slider == _saturationSlider)
     {
+        _saturation = [slider value];
         _saturationLabel.text = [NSString stringWithFormat:@"%f", [slider value]];
+        /*//_image = _imageView.image;
+        cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
+        [CSOpenCVWrapper hsvTransform:imgMatrix hue:_hue saturation:_saturation value:_value];
+        _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
+        //_imageView = [[UIImageView alloc] initWithImage:_image];
+        [_imageView setImage:_newImage];*/
     }
     else if (slider == _hueSlider)
     {
+        _hue = [slider value];
         _hueLabel.text = [NSString stringWithFormat:@"%f", [slider value]];
+        /*Float32 hueCos = cos(_hue * M_PI/180);
+        Float32 hueSin = sin(_hue * M_PI/180);
+        cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
+        [CSOpenCVWrapper hueTransform:imgMatrix hueSin:hueSin hueCos:hueCos];
+        _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
+        //_imageView = [[UIImageView alloc] initWithImage:_image];
+        [_imageView setImage:_newImage];*/
     }
-    
-    _image = _imageView.image;
+    //_image = _imageView.image;
     cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
-    [CSOpenCVWrapper hsvTransform:imgMatrix];
+    [CSOpenCVWrapper hsvTransform:imgMatrix hue:_hue saturation:_saturation value:_value];
     _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
-    //_imageView = [[UIImageView alloc] initWithImage:_image];
-    //[_imageView setImage:_newImage];
+    [_imageView setImage:_newImage];
     
 }
 
