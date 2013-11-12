@@ -39,7 +39,7 @@ public:
     //float satStdThresold = -0.25f, float satStdMax = 1.75f,
     float valStdThresold = 0.0f, float valStdMax = 3.0f);
 
-  static void MatchSkinToon_f(const cv::Mat& input, cv::Mat& output, cv::Mat& meanMap,
+    static cv::Mat MatchSkinToon_f(const cv::Mat& input, cv::Mat& output, cv::Mat& meanMap,
     float hue, float saturation, float value, bool generateMeanMap,
     //float satStdThresold = -0.25f, float satStdMax = 1.75f,
     float valStdThresold = 0.0f, float valStdMax = 3.0f);

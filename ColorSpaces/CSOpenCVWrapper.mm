@@ -119,7 +119,6 @@ valueTransformMat[2][1] = 0;
 valueTransformMat[2][2] = 1;*/
 
 
-
 @implementation CSOpenCVWrapper
 
 
@@ -239,6 +238,10 @@ Float32* TransformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 va
     Float32* data = (Float32*)cvMat.data;
     Float32 vsu = value * saturation * cos(hue * M_PI/180);
     Float32 vsw = value * saturation * sin(hue * M_PI/180);
+    
+    //typedef boost::tuples::tuple<Float32, Float32, Float32> ColorTuple;
+    
+    
     for (int i = 0; i < numPixels * 4; i+=4)
     {
         TransformHSV(data + i, vsu, vsw, value);
@@ -280,5 +283,221 @@ Float32* TransformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 va
     }
     return cvMat;
 }
+
++ (cv::Mat) matchSkinToneF:(cv::Mat)cvMat hue:(Float32)hue saturation:(Float32)saturation value:(Float32)value
+{
+    int width = cvMat.size().width;
+    int height = cvMat.size().height;
+    cv::Mat resultCVMat(width, height, CV_32FC4);
+    cv::Mat meanCVMat(width, height, CV_32FC4);
+    
+    MatchSkinToon_f(cvMat, resultCVMat, meanCVMat, hue, saturation, value, true, 0.0, 0.0);
+    
+    return  resultCVMat;
+}
+
+
+
+void min_max(Float32 *src, Float32 *min, Float32 *max)
+{
+    Float32 first, second, third;
+    Float32 temp_min, temp_max;
+    first = *src;
+    second = *(src + 1);
+    third = *(src + 2);
+    temp_min = fmin(first, second);
+    temp_max = fmax(first, second);
+    *min = fmin(third, temp_min);
+    *max = fmax(third, temp_max);
+}
+
+
+void RGBtoHSV(Float32 *src, Float32 *dst, int size)
+{
+    float min = 0, max = 0, delta;
+    
+    for(int i = 0; i < size; i += 4)
+    {
+        // i   = r h
+        // i+1 = g s
+        // i+2 = b v
+        
+        
+        
+        
+        //asm_minmax(src+i, 3, &min, &max);
+        min_max(src + i, &min, &max);
+        
+        
+        if(max != 0.0f)
+        {
+            
+            delta = (max - min);
+            
+            if(src[i] == max)
+            {
+                dst[i] = (src[i+1] - src[i+2]) / delta;		// between yellow & magenta
+            }
+            else if(src[i+1] == max)
+            {
+                dst[i] = 2.0f + (src[i+2] - src[i]) / delta;	// between cyan & yellow
+            }
+            else
+            {
+                dst[i] = 4.0f + (src[i] - src[i+1]) / delta;	// between magenta & cyan
+            }
+            
+            dst[i] *= 60.0f;				// degrees
+            
+            if(dst[i] < 0.0f)
+            {
+                dst[i] += 360.0f;
+            }
+            
+            dst[i+1] = delta / max;
+            dst[i+2] = max;
+        }
+        else
+        {
+            // r = g = b = 0		// s = 0, v is undefined
+            dst[i] = -1.0f;
+            dst[i+1] = 0.0f;
+            dst[i+2] = max;
+            continue;
+        }
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>
+/// Convert HSV to RGB
+/// </summary>
+/// <param name="src"></param>
+/// <param name="dst"></param>
+void HSVtoRGB(Float32 *src, Float32 *dst, int size)
+{
+    int j;
+    float h, f, p, q, t, s;
+    
+    for(int i = 0; i < size; i += 4)
+    {
+        // i   = r h
+        // i+1 = g s
+        // i+2 = b v
+        
+        if(src[i+1] == 0.0f)
+        {
+            // achromatic (grey)
+            dst[i] = dst[i+1] = dst[i+2] = src[i+4];
+            continue;
+        }
+        
+        s = src[i+2];
+        
+        h = src[i] / 60.0f;		// sector 0 to 5
+        j = (int)(h);
+        f = h - j;			// factorial part of h
+        p = s * (1.0f - src[i+1]);
+        q = s * (1.0f - src[i+1] * f);
+        t = s * (1.0f - src[i+1] * (1 - f));
+        
+        
+        
+        float m[24] = { s, t, p, 0,
+            q, s, p, 0,
+            p, s, t, 0,
+            p, q, s, 0,
+            t, p, s, 0,
+            s, p, q, 0 };
+        
+        int row = j << 2;
+        
+        dst[i] = m[row];
+        dst[i+1] = m[row + 1];
+        dst[i+2] = m[row + 2];
+    }
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+cv::Mat MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output, cv::Mat& meanMap,
+                                         float hue, float saturation, float value, bool generateMeanMap,
+                                         float valStdThresold /*= 0.0f*/, float valStdMax /*= 2.0f*/)
+{
+    // Mean map
+    //cv::Mat meanMap;
+    //cv::GaussianBlur(image_RGB, meanMap, cv::Size(201, 201), 0);
+    
+    // Mean map
+    
+    if (generateMeanMap) {
+        cv::Mat shrinked;
+        cv::resize(image_RGB, shrinked, cv::Size(7, 7), 0, 0, cv::INTER_AREA); // 12%?
+        cv::resize(shrinked, meanMap, image_RGB.size(), 0, 0, cv::INTER_LINEAR);//38.3%
+        RGBtoHSV((Float32*)meanMap.data, (Float32*)meanMap.data, image_RGB.size().width * image_RGB.size().height * 4);
+    }
+    
+    //cv::Mat meanMap;
+    //cv::boxFilter(image_RGB, meanMap, image_RGB.depth(), cv::Size(201,201));
+    
+    // To HSV
+    cv::Mat image_HSV(image_RGB.rows, image_RGB.cols, image_RGB.type());
+    
+    Float32 *image_RGB_data = (Float32*)image_RGB.data;
+    Float32 *image_HSV_data =(Float32*)image_HSV.data;
+    
+    RGBtoHSV(image_RGB_data, image_HSV_data, image_RGB.size().width * image_RGB.size().height * 4);
+    
+    int numPixels = image_HSV.rows * image_HSV.cols;
+    
+    Float32 *image_data = (Float32*)image_HSV.data;
+    Float32 *mean_data = (Float32*)meanMap.data;
+    
+    // Adjust hue & saturation
+    
+    for (int i = 0; i < numPixels * 4; i+=4) {
+        float hueColorOffset = hue - mean_data[i];
+        float satColorOffset = saturation - mean_data[i+1];
+        
+        if(saturation < -1)  // Black&White special case
+        {
+            image_data[i+1] = 0.0f;
+        }
+        else
+        {
+            image_data[i+1] += satColorOffset;
+        }
+        
+        image_data[i] += hueColorOffset;
+        
+        if(image_data[i] < 0.0f)
+        {
+            image_data[i] += 360.0f;
+        }
+        else if(image_data[i] > 360.0f)
+        {
+            image_data[i] -= 360.0f;
+        }
+    }
+    
+    // Adjust value
+    
+    
+    cv::Scalar mean = cv::mean(image_HSV);
+    //adjustValue(value-mean[2], image_HSV);
+    Float32 value_shift = value - mean[2];
+    for (int i = 0; i < numPixels * 4; i+=4)
+    {
+        image_data[i + 2] = image_data[i + 2] + value_shift;
+    }
+    
+    HSVtoRGB((Float32*)image_HSV.data, (Float32*)output.data, image_HSV.size().width * image_HSV.size().height * 4);
+    return output;
+}
+
+
 
 @end

@@ -30,11 +30,26 @@ static const int NUM_THREADS = 1;
 /// </summary>
 /// <param name="src"></param>
 /// <param name="dst"></param>
-void RGBtoHSV(float32_t *src, float32_t *dst, int size)
+
+void min_max(Float32 *src, Float32 *min, Float32 *max)
+{
+    Float32 first, second, third;
+    Float32 temp_min, temp_max;
+    first = *src;
+    second = *(src + 1);
+    third = *(src + 2);
+    temp_min = fmin(first, second);
+    temp_max = fmax(first, second);
+    *min = fmin(third, temp_min);
+    *max = fmax(third, temp_max);
+}
+
+
+void RGBtoHSV(Float32 *src, Float32 *dst, int size)
 {
     float min = 0, max = 0, delta;
     
-    for(int i = 0; i < size; i += 3)
+    for(int i = 0; i < size; i += 4)
     {
         // i   = r h
         // i+1 = g s
@@ -43,7 +58,8 @@ void RGBtoHSV(float32_t *src, float32_t *dst, int size)
 
 
 
-        asm_minmax(src+i, 3, &min, &max);
+        //asm_minmax(src+i, 3, &min, &max);
+        min_max(src + i, &min, &max);
         
 
         if(max != 0.0f)
@@ -93,12 +109,12 @@ void RGBtoHSV(float32_t *src, float32_t *dst, int size)
 /// </summary>
 /// <param name="src"></param>
 /// <param name="dst"></param>
-void HSVtoRGB(float32_t *src, float32_t *dst, int size)
+void HSVtoRGB(Float32 *src, Float32 *dst, int size)
 {
     int j;
     float h, f, p, q, t, s;
     
-    for(int i = 0; i < size; i += 3)
+    for(int i = 0; i < size; i += 4)
     {
         // i   = r h
         // i+1 = g s
@@ -141,7 +157,7 @@ void HSVtoRGB(float32_t *src, float32_t *dst, int size)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef __ARM_NEON__
-void SkinToneMatcher::MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output, cv::Mat& meanMap,
+cv::Mat SkinToneMatcher::MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output, cv::Mat& meanMap,
                                             float hue, float saturation, float value, bool generateMeanMap,
                                             float valStdThresold /*= 0.0f*/, float valStdMax /*= 2.0f*/)
 {
@@ -155,36 +171,28 @@ void SkinToneMatcher::MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output,
         cv::Mat shrinked;
         cv::resize(image_RGB, shrinked, cv::Size(7, 7), 0, 0, cv::INTER_AREA); // 12%?
         cv::resize(shrinked, meanMap, image_RGB.size(), 0, 0, cv::INTER_LINEAR);//38.3%
-        //----
-        // RGBtoHSV((float32_t*)meanMap.data, (float32_t*)meanMap.data, image_RGB.size().width * image_RGB.size().height * 3);
-        //----
+        RGBtoHSV((Float32*)meanMap.data, (Float32*)meanMap.data, image_RGB.size().width * image_RGB.size().height * 4);
     }
         
     //cv::Mat meanMap;
     //cv::boxFilter(image_RGB, meanMap, image_RGB.depth(), cv::Size(201,201));
     
     // To HSV
-    //cv::Mat image_HSV(image_RGB.rows, image_RGB.cols, image_RGB.type());
+    cv::Mat image_HSV(image_RGB.rows, image_RGB.cols, image_RGB.type());
     
-    float32_t *image_RGB_data = (float32_t*)image_RGB.data;
-    //----
-    // float32_t *image_HSV_data =(float32_t*)image_HSV.data;
-    //----
+    Float32 *image_RGB_data = (Float32*)image_RGB.data;
+    Float32 *image_HSV_data =(Float32*)image_HSV.data;
     
-    //----
-    // RGBtoHSV(image_RGB_data, image_HSV_data, image_RGB.size().width * image_RGB.size().height * 3);
-    //----
+    RGBtoHSV(image_RGB_data, image_HSV_data, image_RGB.size().width * image_RGB.size().height * 4);
     
     int numPixels = image_HSV.rows * image_HSV.cols;
     
-    //----
-    // float32_t *image_data = (float32_t*)image_HSV.data;
-    //----
-    float32_t *mean_data = (float32_t*)meanMap.data;
+    Float32 *image_data = (Float32*)image_HSV.data;
+    Float32 *mean_data = (Float32*)meanMap.data;
     
     // Adjust hue & saturation
     
-    /*for (int i = 0; i < numPixels * 3; i+=3) {
+    for (int i = 0; i < numPixels * 4; i+=4) {
         float hueColorOffset = hue - mean_data[i];
         float satColorOffset = saturation - mean_data[i+1];
 
@@ -207,40 +215,42 @@ void SkinToneMatcher::MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output,
         {
             image_data[i] -= 360.0f;
         }
-    }*/
+    }
     
     // Adjust value
     
     
-    //----
-    // cv::Scalar mean = cv::mean(image_HSV);
-    // adjustValue(value-mean[2], image_HSV);
-    //----
+    cv::Scalar mean = cv::mean(image_HSV);
+    //adjustValue(value-mean[2], image_HSV);
+    Float32 value_shift = value - mean[2];
+    for (int i = 0; i < numPixels * 4; i+=4)
+    {
+        image_data[i + 2] + value_shift;
+    }
     
-    //----
-    // HSVtoRGB((float32_t*)image_HSV.data, (float32_t*)output.data, image_HSV.size().width * image_HSV.size().height * 3);
-    //----
+    HSVtoRGB((Float32*)image_HSV.data, (Float32*)output.data, image_HSV.size().width * image_HSV.size().height * 4);
+    return output;
 }
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef __ARM_NEON__
-float32_t* TransformHSV(float32_t *pixel_color /* color to transform*/, float32_t hue_shift /* hue shift (in degrees)*/, float32_t sat_mult /*saturation multiplier (scalar)*/, float32_t val_mult /* value multiplier (scalar)*/)
+Float32* TransformHSV(Float32 *pixel_color /* color to transform*/, Float32 hue_shift /* hue shift (in degrees)*/, Float32 sat_mult /*saturation multiplier (scalar)*/, Float32 val_mult /* value multiplier (scalar)*/)
 {
-    float32_t vsu = val_mult * sat_mult * cos(hue_shift * M_PI/180);
-    float32_t vsw = val_mult * sat_mult * sin(hue_shift * M_PI/180);
+    Float32 vsu = val_mult * sat_mult * cos(hue_shift * M_PI/180);
+    Float32 vsw = val_mult * sat_mult * sin(hue_shift * M_PI/180);
     
-    float32_t r_in = pixel_color[0];
-    float32_t g_in = pixel_color[1];
-    float32_t b_in = pixel_color[2];
+    Float32 r_in = pixel_color[0];
+    Float32 g_in = pixel_color[1];
+    Float32 b_in = pixel_color[2];
     
-    float32_t r_result = (.299 * val_mult + .701 * vsu+ .168 * vsw) * r_in
+    Float32 r_result = (.299 * val_mult + .701 * vsu+ .168 * vsw) * r_in
         + (.587 * val_mult - .587 * vsu + .330 * vsw) * g_in
         + (.114 * val_mult - .114 * vsu - .497 * vsw) * b_in;
-    float32_t g_result = (.299 * val_mult - .299 * vsu - .328 * vsw) * r_in
+    Float32 g_result = (.299 * val_mult - .299 * vsu - .328 * vsw) * r_in
         + (.587 * val_mult + .413 * vsu + .035 *vsw) * g_in
         + (.114 * val_mult - .114 * vsu + .292 * vsw) * b_in;
-    float32_t b_result = (.299 * val_mult - .3 * vsu + 1.25 * vsw) * r_in
+    Float32 b_result = (.299 * val_mult - .3 * vsu + 1.25 * vsw) * r_in
         + (.587 * val_mult - .588 * vsu - 1.05 * vsw) * g_in
         + (.114 * val_mult + .886 * vsu - .203 * vsw) * b_in;
 

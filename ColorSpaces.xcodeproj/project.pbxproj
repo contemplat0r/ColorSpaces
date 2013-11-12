@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CE08BA7C182CF34F00632FB0 /* CSOpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = CE08BA7B182CF34F00632FB0 /* CSOpenCVWrapper.mm */; };
-		CE08BA86182D19B700632FB0 /* SkinToneMatcherRGB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE08BA85182D19B700632FB0 /* SkinToneMatcherRGB.cpp */; };
+		CE08BA86182D19B700632FB0 /* SkinToneMatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = CE08BA85182D19B700632FB0 /* SkinToneMatcher.mm */; };
 		CE08BA87182D1B8A00632FB0 /* OpenCV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED837DB182BB54E0047FB01 /* OpenCV2.framework */; };
 		CE99EB5118311E5D0002AC1A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99EB5018311E5D0002AC1A /* Accelerate.framework */; };
 		CED8375E182BAA600047FB01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED8375D182BAA600047FB01 /* Foundation.framework */; };
@@ -65,7 +65,7 @@
 		CE08BA76182CEEF800632FB0 /* CSOpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSOpenCVWrapper.h; sourceTree = "<group>"; };
 		CE08BA7B182CF34F00632FB0 /* CSOpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CSOpenCVWrapper.mm; sourceTree = "<group>"; };
 		CE08BA84182D19A700632FB0 /* SkinToneMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkinToneMatcher.h; sourceTree = "<group>"; };
-		CE08BA85182D19B700632FB0 /* SkinToneMatcherRGB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkinToneMatcherRGB.cpp; sourceTree = "<group>"; };
+		CE08BA85182D19B700632FB0 /* SkinToneMatcher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SkinToneMatcher.mm; sourceTree = "<group>"; };
 		CE08BA88182D1F4C00632FB0 /* libedit.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.dylib; path = usr/lib/libedit.dylib; sourceTree = SDKROOT; };
 		CE99EB5018311E5D0002AC1A /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		CED8375A182BAA600047FB01 /* ColorSpaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorSpaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,7 +208,7 @@
 				CED83772182BAA600047FB01 /* Main_iPad.storyboard */,
 				CED83775182BAA600047FB01 /* CSViewController.h */,
 				CED83776182BAA600047FB01 /* CSViewController.mm */,
-				CE08BA85182D19B700632FB0 /* SkinToneMatcherRGB.cpp */,
+				CE08BA85182D19B700632FB0 /* SkinToneMatcher.mm */,
 				CE08BA84182D19A700632FB0 /* SkinToneMatcher.h */,
 				CE08BA76182CEEF800632FB0 /* CSOpenCVWrapper.h */,
 				CED83778182BAA600047FB01 /* Images.xcassets */,
@@ -458,7 +458,7 @@
 			files = (
 				CED8376E182BAA600047FB01 /* CSAppDelegate.m in Sources */,
 				CED8376A182BAA600047FB01 /* main.m in Sources */,
-				CE08BA86182D19B700632FB0 /* SkinToneMatcherRGB.cpp in Sources */,
+				CE08BA86182D19B700632FB0 /* SkinToneMatcher.mm in Sources */,
 				CED83777182BAA600047FB01 /* CSViewController.mm in Sources */,
 				CE08BA7C182CF34F00632FB0 /* CSOpenCVWrapper.mm in Sources */,
 			);
