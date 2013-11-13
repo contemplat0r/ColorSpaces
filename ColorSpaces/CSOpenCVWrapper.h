@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <Accelerate/Accelerate.h>
 #import "SkinToneMatcher.h"
+#import <boost/tuple/tuple.hpp>
+#import <boost/unordered/unordered_map.hpp>
+#include <boost/tuple/tuple_comparison.hpp>
+
 
 //using namespace cv;
 

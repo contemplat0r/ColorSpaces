@@ -119,10 +119,39 @@ valueTransformMat[2][1] = 0;
 valueTransformMat[2][2] = 1;*/
 
 
+/*namespace boost
+{
+    namespace tuples
+    {
+        std::size_t hash_value(param_tuple const& e);
+    }
+}*/
+typedef boost::tuple<Float32, Float32, Float32> ColorTuple;
+
+struct ihash : std::unary_function<ColorTuple, std::size_t>
+{
+    std::size_t operator()(ColorTuple const& ct) const
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, ct.get<0>());
+        boost::hash_combine(seed, ct.get<1>());
+        boost::hash_combine(seed, ct.get<2>());
+        return seed;
+    }
+};
+
+struct iequal_to : std::binary_function<ColorTuple, ColorTuple, bool>
+{
+    bool operator()(ColorTuple const& x, ColorTuple const& y) const
+    {
+        return (x.get<0>() == y.get<0>() && x.get<1>() == y.get<1>() && x.get<2>() == y.get<2>());
+    }
+};
+
+
+typedef boost::unordered_map<ColorTuple, ColorTuple, ihash, iequal_to> ColorHash;
+
 @implementation CSOpenCVWrapper
-
-
-
 
 
 + (cv::Mat)cvMatFromUIImage:(UIImage *)image
@@ -131,13 +160,13 @@ valueTransformMat[2][2] = 1;*/
      CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
      CGFloat cols = image.size.width;
      CGFloat rows = image.size.height;
-     NSLog(@"Image cols: %f, rows: %f\n", cols, rows);
+     //NSLog(@"Image cols: %f, rows: %f\n", cols, rows);
  
      //cv::Mat cvMat(rows, cols, CV_32FC4); // 8 bits per component, 4 channels (color channels + alpha)
      cv::Mat cvMat(rows, cols, CV_8UC4);
  
-     NSLog(@"Image bytes per row %U\n", cvMat.step[0]);
-     NSLog(@"Elem size %U\n", cvMat.elemSize());
+     //NSLog(@"Image bytes per row %U\n", cvMat.step[0]);
+     //NSLog(@"Elem size %U\n", cvMat.elemSize());
      CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,                 // Pointer to  data
                                                      cols,                       // Width of bitmap
                                                      rows,                       // Height of bitmap
@@ -206,7 +235,7 @@ valueTransformMat[2][2] = 1;*/
     return finalImage;
 }
 
-Float32* TransformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 val_mult)
+Float32* transformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 val_mult)
 {
     //Float32 vsu = val_mult * sat_mult * cos(hue_shift * M_PI/180);
     //Float32 vsw = val_mult * sat_mult * sin(hue_shift * M_PI/180);
@@ -240,11 +269,25 @@ Float32* TransformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 va
     Float32 vsw = value * saturation * sin(hue * M_PI/180);
     
     //typedef boost::tuples::tuple<Float32, Float32, Float32> ColorTuple;
-    
+    ColorHash colorHash;
     
     for (int i = 0; i < numPixels * 4; i+=4)
     {
-        TransformHSV(data + i, vsu, vsw, value);
+        ColorTuple inputColorTuple(*(data + i), *(data + i + 1), *(data + i + 2));
+        ColorHash::iterator colorHashIterator = colorHash.find(inputColorTuple);
+        if (colorHashIterator == colorHash.end())
+        {
+            Float32 *resultPixelColor = transformHSV(data + i, vsu, vsw, value);
+            ColorTuple resultColorTuple(*resultPixelColor, *(resultPixelColor + 1), *(resultPixelColor + 2));
+            colorHash.insert(ColorHash::value_type(inputColorTuple, resultColorTuple));
+        }
+        else
+        {
+            ColorTuple resultColorTuple = colorHashIterator->second;
+            *(data + i) = resultColorTuple.get<0>();
+            *(data + i + 1) = resultColorTuple.get<1>();
+            *(data + i + 2) = resultColorTuple.get<2>();
+         }
     }
     
     return cvMat;
