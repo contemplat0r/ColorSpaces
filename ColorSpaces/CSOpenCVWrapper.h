@@ -10,9 +10,11 @@
 #import <Accelerate/Accelerate.h>
 #import "SkinToneMatcher.h"
 #import <boost/tuple/tuple.hpp>
-#import <boost/unordered/unordered_map.hpp>
-#include <boost/tuple/tuple_comparison.hpp>
-
+//#import <boost/unordered/unordered_map.hpp>
+//#include <boost/tuple/tuple_comparison.hpp>
+#import <pthread.h>
+#include <errno.h>
+#include <semaphore.h>
 
 //using namespace cv;
 

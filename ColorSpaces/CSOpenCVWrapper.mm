@@ -118,40 +118,14 @@ valueTransformMat[2][0] = 0;
 valueTransformMat[2][1] = 0;
 valueTransformMat[2][2] = 1;*/
 
+int numPixels, pixelArraySize;
+Float32 vsu, vsw, colorValue;
+sem_t semaphore;
+Float32 *data;
 
-/*namespace boost
-{
-    namespace tuples
-    {
-        std::size_t hash_value(param_tuple const& e);
-    }
-}*/
-typedef boost::tuple<Float32, Float32, Float32> ColorTuple;
-
-struct ihash : std::unary_function<ColorTuple, std::size_t>
-{
-    std::size_t operator()(ColorTuple const& ct) const
-    {
-        std::size_t seed = 0;
-        boost::hash_combine(seed, ct.get<0>());
-        boost::hash_combine(seed, ct.get<1>());
-        boost::hash_combine(seed, ct.get<2>());
-        return seed;
-    }
-};
-
-struct iequal_to : std::binary_function<ColorTuple, ColorTuple, bool>
-{
-    bool operator()(ColorTuple const& x, ColorTuple const& y) const
-    {
-        return (x.get<0>() == y.get<0>() && x.get<1>() == y.get<1>() && x.get<2>() == y.get<2>());
-    }
-};
-
-
-typedef boost::unordered_map<ColorTuple, ColorTuple, ihash, iequal_to> ColorHash;
-
-@implementation CSOpenCVWrapper
+@implementation CSOpenCVWrapper {
+    
+}
 
 
 + (cv::Mat)cvMatFromUIImage:(UIImage *)image
@@ -261,37 +235,67 @@ Float32* transformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 va
     return pixel_color;
 }
 
+void* hsvTransformThreadWrapper(void* inputpixels)
+{
+    Float32 *data = (Float32*)inputpixels;
+
+    for (int i = 0; i < pixelArraySize; i+=8)
+    {
+        transformHSV(data + i, vsu, vsw, colorValue);
+    }
+    
+    return (void*)data;
+}
+
 + (cv::Mat) hsvTransform:(cv::Mat)cvMat hue:(Float32)hue saturation:(Float32)saturation value:(Float32)value
 {
-    int numPixels = cvMat.rows * cvMat.cols;
-    Float32* data = (Float32*)cvMat.data;
+    /*int numPixels = cvMat.rows * cvMat.cols;
     Float32 vsu = value * saturation * cos(hue * M_PI/180);
-    Float32 vsw = value * saturation * sin(hue * M_PI/180);
+    Float32 vsw = value * saturation * sin(hue * M_PI/180);*/
+    int result;
+
+    numPixels = cvMat.rows * cvMat.cols;
+    vsu = value * saturation * cos(hue * M_PI/180);
+    vsw = value * saturation * sin(hue * M_PI/180);
+    colorValue = value;
     
-    //typedef boost::tuples::tuple<Float32, Float32, Float32> ColorTuple;
-    ColorHash colorHash;
+    pthread_t firstThread, secondThread;
     
-    for (int i = 0; i < numPixels * 4; i+=4)
+    Float32* data = (Float32*)cvMat.data;
+    
+    pixelArraySize = 4 * numPixels;
+    
+    result = pthread_create(&firstThread, NULL, hsvTransformThreadWrapper, data);
+    if (result != 0)
     {
-        ColorTuple inputColorTuple(*(data + i), *(data + i + 1), *(data + i + 2));
-        ColorHash::iterator colorHashIterator = colorHash.find(inputColorTuple);
-        if (colorHashIterator == colorHash.end())
-        {
-            Float32 *resultPixelColor = transformHSV(data + i, vsu, vsw, value);
-            ColorTuple resultColorTuple(*resultPixelColor, *(resultPixelColor + 1), *(resultPixelColor + 2));
-            colorHash.insert(ColorHash::value_type(inputColorTuple, resultColorTuple));
-        }
-        else
-        {
-            ColorTuple resultColorTuple = colorHashIterator->second;
-            *(data + i) = resultColorTuple.get<0>();
-            *(data + i + 1) = resultColorTuple.get<1>();
-            *(data + i + 2) = resultColorTuple.get<2>();
-         }
+        NSLog(@"First thread: error at start\n");
     }
+    
+    result = pthread_create(&secondThread, NULL, hsvTransformThreadWrapper, data + 4);
+    if (result != 0)
+    {
+        NSLog(@"Second thread: error at start\n");
+    }
+    
+    result = pthread_join(firstThread, NULL);
+    if (result != 0)
+    {
+        NSLog(@"First thread: error at join\n");
+    }
+    
+    result = pthread_join(secondThread, NULL);
+    if (result != 0)
+    {
+        NSLog(@"Second thread: error at join\n");
+    }
+    /*for (int i = 0; i < numPixels * 4; i+=4)
+    {
+        transformHSV(data + i, vsu, vsw, value);
+    }*/
     
     return cvMat;
 }
+
 
 + (cv::Mat) hueTransform:(cv::Mat)cvMat hueSin:(Float32)hueSin hueCos:(Float32)hueCos
 {

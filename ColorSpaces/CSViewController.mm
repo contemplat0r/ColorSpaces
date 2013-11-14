@@ -141,7 +141,7 @@
     //_image = _imageView.image;
     cv::Mat imgMatrix = [CSOpenCVWrapper cvMatFromUIImage:_image];
     [CSOpenCVWrapper hsvTransform:imgMatrix hue:_hue saturation:_saturation value:_value];
-    cv::Mat transformedImgMatrix = [CSOpenCVWrapper matchSkinToneF:imgMatrix hue:_hue saturation:_saturation value:_value];
+    //cv::Mat transformedImgMatrix = [CSOpenCVWrapper matchSkinToneF:imgMatrix hue:_hue saturation:_saturation value:_value];
     _newImage = [CSOpenCVWrapper UIImageFromCVMat:imgMatrix];
     //_newImage = [CSOpenCVWrapper UIImageFromCVMat:transformedImgMatrix];
     [_imageView setImage:_newImage];
