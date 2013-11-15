@@ -1,3 +1,4 @@
+
 //
 //  CSOpenCVWrapper.m
 //  ColorSpaces
@@ -119,9 +120,9 @@ valueTransformMat[2][1] = 0;
 valueTransformMat[2][2] = 1;*/
 
 int numPixels, pixelArraySize;
-Float32 vsu, vsw, colorValue;
+float vsu, vsw, colorValue;
 sem_t semaphore;
-Float32 *data;
+float *data;
 
 @implementation CSOpenCVWrapper {
     
@@ -209,22 +210,148 @@ Float32 *data;
     return finalImage;
 }
 
-Float32* transformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 val_mult)
+/*
+ 
+ T : matrix([v, 0, 0], [0, vsu, -vsw], [0, vsw, vsu]);
+ 
+ [ v   0     0   ]
+ [               ]
+ [ 0  vsu  - vsw ]
+ [               ]
+ [ 0  vsw   vsu  ]
+ 
+ 
+ RGBtoYIQ : matrix([0.299, 0.587, 0.114], [0.596, -0.274, -0.321], [0.211, -0.523, 0.311]);
+ 
+ [ 0.299   0.587    0.114  ]
+ [                         ]
+ [ 0.596  - 0.274  - 0.321 ]
+ [                         ]
+ [ 0.211  - 0.523   0.311  ]
+ 
+ 
+ YIQtoRGB : matrix([1, 0.956, 0.621], [1, -0.272, -0.647], [1, -1.107, 1.705]);
+ 
+ [ 1   0.956    0.621  ]
+ [                     ]
+ [ 1  - 0.272  - 0.647 ]
+ [                     ]
+ [ 1  - 1.107   1.705  ]
+ 
+ 
+ YIQtoRGB * T * RGBtoYIQ;
+ 
+ [ 0.299 v            0                   0        ]
+ [                                                 ]
+ [    0     .07452800000000001 vsu  - 0.207687 vsw ]
+ [                                                 ]
+ [    0     .5789610000000001 vsw    0.530255 vsu  ]
+ 
+ 
+ RGBtoYIQ * T * YIQtoRGB;
+ 
+ [ 0.299 v            0                   0        ]
+ [                                                 ]
+ [    0     .07452800000000001 vsu  - 0.207687 vsw ]
+ [                                                 ]
+ [    0     .5789610000000001 vsw    0.530255 vsu  ]
+ 
+ */
+
++ (cv::Mat) hsvTransformBlas:(cv::Mat)cvMat hue:(float)hue saturation:(float)saturation value:(float)value
 {
-    //Float32 vsu = val_mult * sat_mult * cos(hue_shift * M_PI/180);
-    //Float32 vsw = val_mult * sat_mult * sin(hue_shift * M_PI/180);
+    numPixels = cvMat.rows * cvMat.cols;
+    vsu = value * saturation * cos(hue * M_PI/180);
+    vsw = value * saturation * sin(hue * M_PI/180);
+    colorValue = value;
+ 
+    float transformMatrix[9] =
+    {
+        0.1684 * vsw + 0.700807 * vsu + 0.299 * value, 0.329834 * vsw - 0.586727 * vsu + 0.587 * value, - 0.496657 * vsw - 0.113745 * vsu + 0.114 * value,
+        - 0.32822 * vsw - 0.298629 * vsu + 0.299 * value, 0.035022 * vsw + .412909 * vsu + 0.587 * value, 0.292279 * vsw - 0.113905 * vsu + 0.114 * value,
+        1.249757 * vsw - 0.3 * vsu + 0.299 * value, - 1.046131 * vsw - 0.588397 * vsu + 0.587 * value, - 0.203028 * vsw + 0.885602 * vsu + 0.114 * value
+    };
+
+    /*float transformMatrix[9] =
+    {
+        0.299 * value,  0,      0,
+        0, 0.074528 * vsu, 0.578961 * vsw ,
+        0, -0.207687 * vsw, 0.530255 * vsu
+    };*/
     
-    Float32 r_in = pixel_color[0];
-    Float32 g_in = pixel_color[1];
-    Float32 b_in = pixel_color[2];
+    float* data = (float*)cvMat.data;
     
-    Float32 r_result = (.299 * val_mult + .701 * vsu + .168 * vsw) * r_in
+    pixelArraySize = 4 * numPixels;
+    
+    float inputPixelsMatrix[3 * numPixels];
+    float outputPixelsMatrix[3 * numPixels];
+    
+
+    
+    for (int i = 0; i < numPixels; i++)
+    {
+        inputPixelsMatrix[i] = data[4 * i];
+        inputPixelsMatrix[numPixels + i] = data[4 * i + 1];
+        inputPixelsMatrix[2 * numPixels + i] = data[4 * i + 2];
+        outputPixelsMatrix[i] = 0;
+        outputPixelsMatrix[numPixels + i] = 0;
+        outputPixelsMatrix[2 * numPixels + i] = 0;
+        
+        
+        /*inputPixelsMatrix[3 * i] = data[4 * i];
+        inputPixelsMatrix[3 * i + 1] = data[4 * i + 1];
+        inputPixelsMatrix[3 * i + 2] = data[4 * i + 2];
+        outputPixelsMatrix[3 * i] = 0;
+        outputPixelsMatrix[3 * i + 1] = 0;
+        outputPixelsMatrix[3 * i + 2] = 0;*/
+    }
+    
+    /*float A[6] = {1, 2, 3, 4, 5, 6};
+    float B[15] = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+    float C[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};*/
+    
+    //cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 3, numPixels, 3, 1.0, (double*)transformMatrix, 3, (double*)inputPixelsMatrix, numPixels, 1.0, (double*)outputPixelsMatrix, numPixels);
+    
+    //cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 2, 5, 3, 1.0, (float*)A, 3, (float*)B, 5, 1.0, (float*)C, 5);
+    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 3, numPixels, 3, 1.0, (float*)transformMatrix, 3, (float*)inputPixelsMatrix, numPixels, 0.0, (float*)outputPixelsMatrix, numPixels);
+    /*for (int i = 0; i < 5; i++)
+    {
+        NSLog(@"%f ", C[i]);
+    }
+    NSLog(@"\n");
+    for (int i = 5; i < 10; i++)
+    {
+        NSLog(@"%f ", C[i]);
+    }
+    NSLog(@"\n");*/
+    
+    for (int i = 0; i < numPixels; i++)
+    {
+        data[4 * i] = outputPixelsMatrix[i];
+        data[4 * i + 1] = outputPixelsMatrix[numPixels + i];
+        data[4 * i + 2] = outputPixelsMatrix[2 * numPixels + i];
+    }
+    
+    return cvMat;
+}
+
+
+float* transformHSV(float *pixel_color, float vsu, float vsw, float val_mult)
+{
+    //float vsu = val_mult * sat_mult * cos(hue_shift * M_PI/180);
+    //float vsw = val_mult * sat_mult * sin(hue_shift * M_PI/180);
+    
+    float r_in = pixel_color[0];
+    float g_in = pixel_color[1];
+    float b_in = pixel_color[2];
+    
+    float r_result = (.299 * val_mult + .701 * vsu + .168 * vsw) * r_in
     + (.587 * val_mult - .587 * vsu + .330 * vsw) * g_in
     + (.114 * val_mult - .114 * vsu - .497 * vsw) * b_in;
-    Float32 g_result = (.299 * val_mult - .299 * vsu - .328 * vsw) * r_in
+    float g_result = (.299 * val_mult - .299 * vsu - .328 * vsw) * r_in
     + (.587 * val_mult + .413 * vsu + .035 *vsw) * g_in
     + (.114 * val_mult - .114 * vsu + .292 * vsw) * b_in;
-    Float32 b_result = (.299 * val_mult - .3 * vsu + 1.25 * vsw) * r_in
+    float b_result = (.299 * val_mult - .3 * vsu + 1.25 * vsw) * r_in
     + (.587 * val_mult - .588 * vsu - 1.05 * vsw) * g_in
     + (.114 * val_mult + .886 * vsu - .203 * vsw) * b_in;
     
@@ -237,7 +364,7 @@ Float32* transformHSV(Float32 *pixel_color, Float32 vsu, Float32 vsw, Float32 va
 
 void* hsvTransformThreadWrapper(void* inputpixels)
 {
-    Float32 *data = (Float32*)inputpixels;
+    float *data = (float*)inputpixels;
 
     for (int i = 0; i < pixelArraySize; i+=8)
     {
@@ -247,11 +374,11 @@ void* hsvTransformThreadWrapper(void* inputpixels)
     return (void*)data;
 }
 
-+ (cv::Mat) hsvTransform:(cv::Mat)cvMat hue:(Float32)hue saturation:(Float32)saturation value:(Float32)value
++ (cv::Mat) hsvTransform:(cv::Mat)cvMat hue:(float)hue saturation:(float)saturation value:(float)value
 {
     /*int numPixels = cvMat.rows * cvMat.cols;
-    Float32 vsu = value * saturation * cos(hue * M_PI/180);
-    Float32 vsw = value * saturation * sin(hue * M_PI/180);*/
+    float vsu = value * saturation * cos(hue * M_PI/180);
+    float vsw = value * saturation * sin(hue * M_PI/180);*/
     int result;
 
     numPixels = cvMat.rows * cvMat.cols;
@@ -261,7 +388,7 @@ void* hsvTransformThreadWrapper(void* inputpixels)
     
     pthread_t firstThread, secondThread;
     
-    Float32* data = (Float32*)cvMat.data;
+    float* data = (float*)cvMat.data;
     
     pixelArraySize = 4 * numPixels;
     
@@ -297,10 +424,10 @@ void* hsvTransformThreadWrapper(void* inputpixels)
 }
 
 
-+ (cv::Mat) hueTransform:(cv::Mat)cvMat hueSin:(Float32)hueSin hueCos:(Float32)hueCos
++ (cv::Mat) hueTransform:(cv::Mat)cvMat hueSin:(float)hueSin hueCos:(float)hueCos
 {
     int numPixels = cvMat.rows * cvMat.cols;
-    Float32* data = (Float32*)cvMat.data;
+    float* data = (float*)cvMat.data;
     hueTransformMat[1][1] = hueCos;
     hueTransformMat[1][2] = -hueSin;
     hueTransformMat[2][1] = hueSin;
@@ -331,7 +458,7 @@ void* hsvTransformThreadWrapper(void* inputpixels)
     return cvMat;
 }
 
-+ (cv::Mat) matchSkinToneF:(cv::Mat)cvMat hue:(Float32)hue saturation:(Float32)saturation value:(Float32)value
+/*+ (cv::Mat) matchSkinToneF:(cv::Mat)cvMat hue:(float)hue saturation:(float)saturation value:(float)value
 {
     int width = cvMat.size().width;
     int height = cvMat.size().height;
@@ -341,14 +468,14 @@ void* hsvTransformThreadWrapper(void* inputpixels)
     MatchSkinToon_f(cvMat, resultCVMat, meanCVMat, hue, saturation, value, true, 0.0, 0.0);
     
     return  resultCVMat;
-}
+}*/
 
 
 
-void min_max(Float32 *src, Float32 *min, Float32 *max)
+void min_max(float *src, float *min, float *max)
 {
-    Float32 first, second, third;
-    Float32 temp_min, temp_max;
+    float first, second, third;
+    float temp_min, temp_max;
     first = *src;
     second = *(src + 1);
     third = *(src + 2);
@@ -359,7 +486,7 @@ void min_max(Float32 *src, Float32 *min, Float32 *max)
 }
 
 
-void RGBtoHSV(Float32 *src, Float32 *dst, int size)
+void RGBtoHSV(float *src, float *dst, int size)
 {
     float min = 0, max = 0, delta;
     
@@ -422,7 +549,7 @@ void RGBtoHSV(Float32 *src, Float32 *dst, int size)
 /// </summary>
 /// <param name="src"></param>
 /// <param name="dst"></param>
-void HSVtoRGB(Float32 *src, Float32 *dst, int size)
+void HSVtoRGB(float *src, float *dst, int size)
 {
     int j;
     float h, f, p, q, t, s;
@@ -484,7 +611,7 @@ cv::Mat MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output, cv::Mat& mean
         cv::Mat shrinked;
         cv::resize(image_RGB, shrinked, cv::Size(7, 7), 0, 0, cv::INTER_AREA); // 12%?
         cv::resize(shrinked, meanMap, image_RGB.size(), 0, 0, cv::INTER_LINEAR);//38.3%
-        RGBtoHSV((Float32*)meanMap.data, (Float32*)meanMap.data, image_RGB.size().width * image_RGB.size().height * 4);
+        RGBtoHSV((float*)meanMap.data, (float*)meanMap.data, image_RGB.size().width * image_RGB.size().height * 4);
     }
     
     //cv::Mat meanMap;
@@ -493,15 +620,15 @@ cv::Mat MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output, cv::Mat& mean
     // To HSV
     cv::Mat image_HSV(image_RGB.rows, image_RGB.cols, image_RGB.type());
     
-    Float32 *image_RGB_data = (Float32*)image_RGB.data;
-    Float32 *image_HSV_data =(Float32*)image_HSV.data;
+    float *image_RGB_data = (float*)image_RGB.data;
+    float *image_HSV_data =(float*)image_HSV.data;
     
     RGBtoHSV(image_RGB_data, image_HSV_data, image_RGB.size().width * image_RGB.size().height * 4);
     
     int numPixels = image_HSV.rows * image_HSV.cols;
     
-    Float32 *image_data = (Float32*)image_HSV.data;
-    Float32 *mean_data = (Float32*)meanMap.data;
+    float *image_data = (float*)image_HSV.data;
+    float *mean_data = (float*)meanMap.data;
     
     // Adjust hue & saturation
     
@@ -535,13 +662,13 @@ cv::Mat MatchSkinToon_f(const cv::Mat& image_RGB, cv::Mat& output, cv::Mat& mean
     
     cv::Scalar mean = cv::mean(image_HSV);
     //adjustValue(value-mean[2], image_HSV);
-    Float32 value_shift = value - mean[2];
+    float value_shift = value - mean[2];
     for (int i = 0; i < numPixels * 4; i+=4)
     {
         image_data[i + 2] = image_data[i + 2] + value_shift;
     }
     
-    HSVtoRGB((Float32*)image_HSV.data, (Float32*)output.data, image_HSV.size().width * image_HSV.size().height * 4);
+    HSVtoRGB((float*)image_HSV.data, (float*)output.data, image_HSV.size().width * image_HSV.size().height * 4);
     return output;
 }
 

@@ -20,9 +20,9 @@
     float _nextElementY;
     float _sliderX;
     float _labelX;
-    Float32 _hue;
-    Float32 _saturation;
-    Float32 _value;
+    float _hue;
+    float _saturation;
+    float _value;
 }
 
 @property (nonatomic) UIImageView* imageView;
